@@ -1,0 +1,8 @@
+root = "./"
+--run_path = "/mnt/k/IMDT/Skynet-Develop/"  --改成你自己的路径(工程文件夹所在目录),此为实验室工程文件夹路径
+  run_path= root.."/imdt2021/"        
+lualoader = root.."lualib/loader.lua"
+lua_cpath = root.."luaclib/?.so;"
+luaservice = root.."service/?.lua;"..run_path.."code/?.lua;" --将"lesson_01"改成工程文件夹名称
+lua_path = root.."lualib/?.lua;"..root.."lualib/?/init.lua;"..root.."service/?.lua;"..run_path.."code/?.lua;"
+snax = run_path.."code/?.lua;" --将"lesson_01"改成工程文件夹名称
