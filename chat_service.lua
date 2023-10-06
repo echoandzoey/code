@@ -1,7 +1,7 @@
 local skynet = require "skynet"
 local socket = require "skynet.socket"
 local GameRole = require "GameRole"
-local RoleMgr = require "GameRoleMgr"
+local GameRoleMgr = require "GameRoleMgr"
 
 -- 接收到客户端连接或收到客户端消息
 function handle_client(id, addr)
@@ -18,7 +18,7 @@ function handle_client(id, addr)
         local str = socket.read(id)
         if str then
             if not is_authenticated then --当第一次登录的时候需要验证用户是不是存在
-               local role =  RoleMgr:get_role_by_id(tonumber(str))
+               local role =  GameRoleMgr:get_role_by_id(tonumber(str))
                 if role then
                     socket.write(id, "恭喜你登录成功！")
                     is_authenticated= true --登录成功 之后把标记取消掉
@@ -30,6 +30,7 @@ function handle_client(id, addr)
                 print("client say:"..str)
             -- 把一个字符串置入正常的写队列，skynet 框架会在 socket 可写时发送它。
                 socket.write(id, str)
+            end
         else
             print("handle_client-- over")
             socket.close(id)
@@ -45,13 +46,15 @@ function start_server()
     local srv_id = socket.listen("0.0.0.0", 8888)
     print("Listen socket :", "0.0.0.0", 8888)
     --创建一个角色管理实例
+ --   local GameRoleMgr = require "GameRoleMgr"
     local RoleMgr = GameRoleMgr:new()
     --生成10000个角色
     RoleMgr:generate_role_list(10000)
     --启动socket，当有客户端链接的时候调用handle_client
     socket.start(srv_id, handle_client)
     --把角色管理实例传递给handle_client
-        handle_client(id, addr, RoleMgr)
+       -- handle_client(id, addr, RoleMgr)
+        handle_client(srv_id, "0.0.0.0")
 
 end
 

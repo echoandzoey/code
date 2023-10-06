@@ -23,7 +23,7 @@ while true do
     if str ~= nil and str ~= "" then --如果消息不为空
         if str == "恭喜你登录成功！" then
             print("恭喜你登陆成功！现在你可以开始畅所欲言了！")--登陆成功
-        else str == "角色ID无效！" then
+        elseif  str =="角色ID无效！" then
             print("角色ID无效！,请重新输入")
         else
             print("role_ "..ID ":" .. str)--进入正常发消息阶段
@@ -35,7 +35,7 @@ while true do
     if readstr then
         if readstr == "quit" then
             socket.close(fd)
-            break;
+            break
         else
             socket.send(fd, readstr)
         end
