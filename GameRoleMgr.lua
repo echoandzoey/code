@@ -30,16 +30,15 @@ function GameRoleMgr:del_role_by_id(role_id)
 end
 
 --根据id获取角色对象
-function GameRoleMgr:get_role_by_id( role_id )
+function GameRoleMgr:get_role_by_id(role_id)
     for i, role in ipairs(self.roles) do
-        if role.id ==role_id then
+        if role.id == role_id then
             return role
-        
-        else
-            return("好可惜！没找到！")
         end
-
-    end    
+    end
+    -- 这里打印一条消息或者返回一个特定的值
+    print("好可惜！没找到！")
+    return nil  -- 这一行是可选的，因为Lua函数默认返回nil
 end
 
 --输出角色数组列表，根据攻击力排序
@@ -54,6 +53,8 @@ function GameRoleMgr:Get_att_sort_list( ... )
     table.sort(sorted_list,function(a, b)
         return a.attack>b.attack
     end)
+
+    return sorted_list
 end
 
 --自动生成n个不同的角色，并且保存得到列表可获取/删除）

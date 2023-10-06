@@ -4,7 +4,7 @@ local GameRole = require "GameRole"
 local GameRoleMgr = require "GameRoleMgr"
 
 -- 接收到客户端连接或收到客户端消息
-function handle_client(id, addr)
+function handle_client(id, addr,GameRoleMgr)
     print("connect from "..addr.." ".. id)
     skynet.error("handle_client service", coroutine.running())
     -- 任何一个服务只有在调用 socket.start(id) 之后，才可以收到这个 socket 上的数据。
@@ -51,10 +51,11 @@ function start_server()
     --生成10000个角色
     RoleMgr:generate_role_list(10000)
     --启动socket，当有客户端链接的时候调用handle_client
-    socket.start(srv_id, handle_client)
+    socket.start(srv_id,function(id, addr)
     --把角色管理实例传递给handle_client
-       -- handle_client(id, addr, RoleMgr)
-        handle_client(srv_id, "0.0.0.0")
+         handle_client(id, addr, RoleMgr)
+    end)
+        --handle_client(srv_id, "0.0.0.0")
 
 end
 
